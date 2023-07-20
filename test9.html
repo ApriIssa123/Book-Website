@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Beyond Boundaries: Love's Triumph in Willowbrook</title>
+  <!-- Add the following script tag for the PayPal SDK -->
+  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD"></script>
+</head>
+<body>
+  <h1>Welcome to My Website!</h1>
+  <p>Thank you for visiting! Here you will find the book <em>Beyond Boundaries: Love's Triumph in Willowbrook</em>. Enjoy the preview and consider purchasing the full book!</p>
+
+  <h2>Book Preview</h2>
+  <div>
+    <p>Once upon a time in the picturesque town of Willowbrook, there lived a young woman named Lily. With her enchanting green eyes and cascading chestnut locks, she had an ethereal beauty that captivated everyone who laid eyes on her. Lily had always dreamed of finding true love, the kind that would make her heart flutter and her soul sing. Little did she know that fate had a grand plan in store for her.</p>
+    
+    <!-- Add more paragraphs to include the rest of the story -->
+    <p>On a serene summer day, as Lily strolled through the vibrant flower garden, she stumbled upon a charming bookstore nestled among the cobblestone streets. Intrigued by its allure, she decided to step inside...</p>
+    
+    <!-- Continue adding paragraphs until the end of the story -->
+    
+    <p>And so, the tale of Lily and Alexander, with all its romance, drama, and unyielding spirit, became an immortal saga—a beacon of hope and a reminder that love, when nurtured and cherished, can transform lives and create miracles that resonate far beyond the confines of our mortal existence.</p>
+  </div>
+
+  <h2>Purchase the Book</h2>
+  <p>The full book is available for $1. Choose your payment method:</p>
+  
+  <button onclick="showCardForm()">Credit Card</button>
+  <button id="paypal-button">PayPal</button> <!-- Add an id to the PayPal button for the SDK to target -->
+
+  <div id="cardForm" style="display: none;">
+    <h3>Enter Your Card Details</h3>
+    <form onsubmit="event.preventDefault(); purchaseBook();">
+      <label for="cardNumber">Card Number:</label>
+      <input type="text" id="cardNumber" name="cardNumber" required><br><br>
+
+      <label for="expiration">Expiration Date:</label>
+      <input type="text" id="expiration" name="expiration" required><br><br>
+
+      <label for="cvv">CVV:</label>
+      <input type="text" id="cvv" name="cvv" required><br><br>
+
+      <button type="submit">Submit Payment</button>
+    </form>
+  </div>
+
+  <script>
+    function showCardForm() {
+      var cardForm = document.getElementById("cardForm");
+      cardForm.style.display = "block";
+    }
+
+    function purchaseBook() {
+      var cardNumber = document.getElementById("cardNumber").value;
+      var expiration = document.getElementById("expiration").value;
+      var cvv = document.getElementById("cvv").value;
+
+      if (!cardNumber || !expiration || !cvv) {
+        alert("Card details declined. Please enter all card details.");
+      } else {
+        // Implement logic to process the payment and deliver the full book
+        // This may involve integrating with a payment gateway or handling server-side operations
+
+        // Perform validation and payment processing here
+        if (cardNumber === "4242424242424242" && expiration === "12/24" && cvv === "123") {
+          alert("Thank you for your purchase! You will now receive the full book.");
+        } else {
+          alert("Card details declined. Please check your card information.");
+        }
+      }
+    }
+
+    // Set up the PayPal button
+    paypal.Buttons({
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: '1.00'
+            }
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          alert('Thank you for your purchase! You will now receive the full book.');
+        });
+      },
+      onError: function(err) {
+        alert('PayPal checkout failed. Please try again or use another payment method.');
+      }
+    }).render('#paypal-button');
+  </script>
+</body>
+</html>
