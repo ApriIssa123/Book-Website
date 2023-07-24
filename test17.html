@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Beyond Boundaries: Love's Triumph in Willowbrook</title>
+  <!-- Add the following script tag for the PayPal SDK -->
+  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=BWP"></script>
+</head>
+<body>
+  <h1>Welcome to My Website!</h1>
+  <p>Thank you for visiting! Here you will find a selection of books to choose from. Enjoy the preview and consider purchasing your favorite book!</p>
+
+  <h2>Book Selection</h2>
+  <ul>
+    <li>
+      <strong>Beyond Boundaries: Love's Triumph in Willowbrook</strong>
+      <button onclick="showPreview('willowbrook')">Preview</button>
+      <button onclick="purchaseBook('willowbrook')">Buy for 10 BWP</button>
+    </li>
+    <li>
+      <strong>Whispers of the Heart</strong>
+      <button onclick="showPreview('whispers')">Preview</button>
+      <button onclick="purchaseBook('whispers')">Buy for 10 BWP</button>
+    </li>
+    <!-- Add more books and buttons as needed -->
+  </ul>
+
+  <div id="preview">
+    <h2>Book Preview</h2>
+    <!-- Add the book preview paragraphs here -->
+    <div id="willowbrook" style="display: none;">
+      <p>Once upon a time in the picturesque town of Willowbrook, there lived a young woman named Lily. With her enchanting green eyes and cascading chestnut locks, she had an ethereal beauty that captivated everyone who laid eyes on her. Lily had always dreamed of finding true love, the kind that would make her heart flutter and her soul sing. Little did she know that fate had a grand plan in store for her.</p>
+
+      <!-- Continue adding paragraphs until the end of the story -->
+
+      <p>And so, the tale of Lily and Alexander, with all its romance, drama, and unyielding spirit, became an immortal saga—a beacon of hope and a reminder that love, when nurtured and cherished, can transform lives and create miracles that resonate far beyond the confines of our mortal existence.</p>
+    </div>
+
+    <div id="whispers" style="display: none;">
+      <p>Once upon a time in a quaint little town nestled between rolling hills and meandering streams, there lived a young artist named Emily and a kind-hearted musician named Daniel. Their paths had crossed countless times as they both frequented the local coffee shop and shared an unspoken connection that seemed to grow stronger with each encounter.</p>
+
+      <!-- Continue adding paragraphs until the end of the story -->
+
+      <p>Their love story spread throughout the town, inspiring others to believe in the magic of true love. Every year, during the art festival, Emily and Daniel would return to the spot where they shared their first kiss, to remind themselves of the serendipitous moment that brought them together.</p>
+
+      <p>And so, the two artists continued to paint the canvas of their lives, side by side, weaving a love story that would forever be remembered in the hearts of those who heard it. In a small town where dreams came true, Emily and Daniel's love bloomed like the flowers in spring, eternal and enchanting.</p>
+    </div>
+    <!-- Add more book preview content here as needed -->
+  </div>
+
+  <div id="cardForm" style="display: none;">
+    <h3>Enter Your Card Details</h3>
+    <form onsubmit="event.preventDefault(); purchaseBook();">
+      <label for="cardNumber">Card Number:</label>
+      <input type="text" id="cardNumber" name="cardNumber" required><br><br>
+
+      <label for="expiration">Expiration Date:</label>
+      <input type="text" id="expiration" name="expiration" required><br><br>
+
+      <label for="cvv">CVV:</label>
+      <input type="text" id="cvv" name="cvv" required><br><br>
+
+      <button type="submit">Submit Payment</button>
+    </form>
+  </div>
+
+  <button id="full-book-btn" style="display: none;" onclick="showFullBook()">Full Book</button>
+  <div id="full-book" style="display: none;">
+    <h2>Full Book</h2>
+    <!-- Replace this with the actual content of the full book -->
+    <p id="fullBookContent">This is the full book content. Replace this text with the actual content of the book.</p>
+  </div>
+
+  <script>
+    function showPreview(bookId) {
+      // Hide all book previews
+      var previews = document.querySelectorAll('#preview > div');
+      previews.forEach(function (preview) {
+        preview.style.display = 'none';
+      });
+
+      // Show the selected book preview
+      var selectedPreview = document.getElementById(bookId);
+      if (selectedPreview) {
+        selectedPreview.style.display = 'block';
+      }
+    }
+
+    function showCardForm() {
+      var cardForm = document.getElementById("cardForm");
+      cardForm.style.display = "block";
+    }
+
+    function showFullBook() {
+      var fullBook = document.getElementById("full-book");
+      fullBook.style.display = "block";
+
+      // Hide the "Full Book" button after showing the content
+      var fullBookBtn = document.getElementById("full-book-btn");
+      fullBookBtn.style.display = "none";
+    }
+
+    function purchaseBook(bookId) {
+      var cardNumber = document.getElementById("cardNumber").value;
+      var expiration = document.getElementById("expiration").value;
+      var cvv = document.getElementById("cvv").value;
+
+      if (!cardNumber || !expiration || !cvv) {
+        alert("Card details declined. Please enter all card details.");
+      } else {
+        // Implement logic to process the payment and deliver the full book
+        // This may involve integrating with a payment gateway or handling server-side operations
+
+        // Perform validation and payment processing here
+        if (cardNumber === "4242424242424242" && expiration === "12/24" && cvv === "123") {
+          alert("Thank you for your purchase! You will now receive the full book.");
+
+          // Show the "Full Book" button after successful payment
+          var fullBookBtn = document.getElementById("full-book-btn");
+          fullBookBtn.style.display = "block";
+
+          // Display the purchased book content
+          var fullBookContent = document.getElementById("fullBookContent");
+          fullBookContent.innerHTML = getFullBookContent(bookId);
+        } else {
+          alert("Card details declined. Please check your card information.");
+        }
+      }
+    }
+
+    function getFullBookContent(bookId) {
+      // Replace this function with actual logic to fetch and return the full book content
+      // based on the bookId.
+      // For example, you can use an object or dictionary to store the book content.
+      var books = {
+        'willowbrook': 'This is the full content of "Beyond Boundaries: Love\'s Triumph in Willowbrook."',
+        'whispers': 'This is the full content of "Whispers of the Heart."'
+        // Add more books and their content as needed
+      };
+
+      return books[bookId] || 'Book content not found.';
+    }
+
+    // Set up the PayPal button
+    paypal.Buttons({
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              currency_code: 'BWP',
+              value: '10.00'
+            }
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          // Payment successful, process the order and receive the money
+          var paymentAmount = 10.00; // Amount in BWP
+          alert('Thank you for your purchase! You will now receive the full book.');
+
+          // Show the "Full Book" button after successful payment
+          var fullBookBtn = document.getElementById("full-book-btn");
+          fullBookBtn.style.display = "block";
+
+          // Display the purchased book content
+          var fullBookContent = document.getElementById("fullBookContent");
+          fullBookContent.innerHTML = getFullBookContent(data.bookId);
+
+          // Implement your payment processing logic here to receive the money.
+          // For example, you can use server-side code to handle the payment processing
+          // and confirm the transaction with PayPal's API.
+          // Make sure to use a secure and verified payment processing solution.
+        });
+      },
+      onError: function(err) {
+        alert('PayPal checkout failed. Please try again or use another payment method.');
+      }
+    }).render('#paypal-button');
+  </script>
+</body>
+</html>
